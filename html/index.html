@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Node JS</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+
+    <!--  -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+    <!--  -->
+
+    <script type="text/javascript" src="../js/index.js"></script>
+
+  </head>
+  <body>
+    <nav>
+      <img src="../html/icon2.png" alt="App icon">
+        Fileup
+      <div class="searchIcon">
+        <img src="../html/search.png" onclick="openSearchBar()" alt="Search icon">
+      </div>
+      <div class="searchBarContainer">
+        <div class="searchBarInner">
+          <input type="text" id="search">
+          <img src="../html/search.png" onclick="searchImages()" alt="Search icon">
+        </div>
+        <div class="searchResults"></div>
+      </div>
+    </nav>
+
+    <div class="loaderBox">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="fullImageContainer">
+    </div>
+
+    <div class="imageContainer">
+    </div>
+
+    <form class="form1" method="post" name="form1" target="_self" action="/upload/"  enctype="multipart/form-data">
+      <span id="caption">UPLOADS</span>
+      <label for="title"> <span>Caption</span>
+        <input type="text" name="title" id="title" />
+      </label>
+      <label for="poto">
+        <input type="file" name="photo" id="photo" accept="image/jpeg" multiple/>
+      </label>
+      <div class="previewHolder">
+        <img id="preview" src="#" />
+      </div>
+      <input type="submit" name="button" id="button" value="Upload"></button>
+    </form>
+
+  </body>
+</html>

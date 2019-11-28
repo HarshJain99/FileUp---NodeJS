@@ -1,0 +1,383 @@
+body{
+  margin           : 0;
+  padding          : 0;
+  background-color : white;
+  position         : relative;
+  height           : 100vh;
+  width            : 100vw;
+  background-color : lightyellow;
+}
+
+.loaderBox{
+  z-index      : 200;
+  width        : 100vw;
+  display      : flex;
+  align-items  : center;
+  position     : fixed;
+  top          : 0;
+  bottom       : 0;
+  padding      : 15vw;
+  box-sizing   : border-box;
+  justify-content : space-around;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.loaderBox span{
+  height       : 100px;
+  width        : 100px;
+  background-color: white;
+  border-radius: 50%;
+  animation    : loader 2s linear infinite;
+}
+
+.loaderBox span:nth-child(1){
+  animation-delay: 0s;
+}
+
+.loaderBox span:nth-child(2){
+  animation-delay: 0.5s;
+}
+
+.loaderBox span:nth-child(3){
+  animation-delay: 1s;
+}
+
+.loaderBox span:nth-child(4){
+  animation-delay: 1.5s;
+}
+
+@keyframes loader {
+  0%{
+    transform: translateY(0);
+  }
+  50%{
+    transform: translateY(40px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+
+.alert{
+  position     : fixed;
+  top          : 0 ;
+  left         : 0;
+  right        : 0;
+  padding      : 20px;
+  box-sizing   : border-box;
+  margin-left  : auto;
+  margin-right : auto;
+  height       : 80px;
+  width        : 80vw;
+  font-size    : 20pt;
+  background-color: red;
+  color        : white;
+  animation    : alert 3s linear forwards;
+  z-index      : 100;
+}
+
+@keyframes alert {
+  0%{
+    top: -30px;
+  }
+  20%{
+    top: 0px;
+  }
+  80%{
+    top: 0px;
+  }
+  100%{
+    top: -30px;
+  }
+}
+
+nav{
+  font-size    : 45pt;
+  min-height   : 4vh;
+  width        : 100vw;
+  padding      : 33px;
+  font-family  : 'Roboto', sans-serif;
+  font-weight  : bold;
+  position     : fixed;
+  background-color: white;
+  text-transform  : uppercase;
+  letter-spacing  : 0.2em;
+  z-index      : 3;
+}
+
+nav img{
+  height       : 3vh;
+  width        : auto;
+}
+
+nav .searchIcon{
+  float        : right;
+  margin-right : 75px;
+  width        : 50px
+}
+
+nav .searchIcon img{
+  height       : 3.5vh;
+  width        : auto;
+}
+
+nav .searchBarContainer{
+  width        : 100vw;
+  height       : 4.3vh;
+  transition   : 1.5s;
+  display      : none;
+}
+
+nav .searchBarContainer .searchBarInner{
+  display      : flex;
+}
+
+nav .searchBarContainer #search{
+  width        : calc(100vw - 66px - 100px);
+  height       : 60px;
+  padding      : 15px;
+  box-sizing   : border-box;
+  border       : none;
+  box-shadow   : inset 0px 0px 10px black;
+  font-size    : 30pt;
+  margin-right : 2.5vw;
+  margin-bottom: 1.5vh;
+}
+
+nav .searchBarContainer .searchResults{
+  overflow-y   : scroll;
+  margin-left  : -35px;
+  max-height   : 89vh;
+  width        : 100vw;
+}
+
+input{
+  font-size    : 22pt;
+  font-weight  : bold;
+}
+
+.form1{
+  position     : fixed;
+  left         : 0;
+  right        : 0;
+  bottom       : 2px;
+  padding      : 20px;
+  margin-left  : auto;
+  margin-right : auto;
+  margin-top   : 10vh;
+  width        : 85vw;
+  min-height   : 30vh;
+  box-sizing   : border-box;
+  box-shadow   : 2px 2px 4px 4px rgba(0,0,0,0.64);
+  font-size    : 36pt;
+  font-family  : monospace;
+  z-index      : 2;
+  font-weight  : bold;
+  border       : 2px solid black;
+  background-color          : lightblue;
+  border-top-left-radius    : 25px;
+  border-top-right-radius   : 25px;
+  border-bottom-left-radius : 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.form1 #caption{
+  position    : absolute;
+  top         : -63px;
+  font-size   : 24pt;
+  color       : black;
+  font-weight : bold;
+  box-sizing  : border-box;
+  padding     : 12px;
+  z-index     : 5;
+  border      : 2px solid black;
+  width       : 200px;
+  border-bottom   : 0px;
+  background-color: lightblue;
+  border-top-left-radius : 20px;
+  border-top-right-radius: 20px;
+}
+
+.form1 label{
+  display      : flex;
+  margin-bottom: 10px;
+}
+
+.form1 label span{
+  display      : block;
+  width        : 24vw;
+  font-size    : 26pt;
+}
+
+.form1 label input[type="text"]{
+  font-weight  : normal;
+  padding-left : 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+
+.form1 input[type="submit"]{
+  position     : absolute;
+  left         : 0;
+  right        : 0;
+  bottom       : 2px;
+  padding      : 20px;
+  margin-left  : auto;
+  margin-right : auto;
+  box-sizing   : border-box;
+  font-size    : 24pt;
+  font-weight  : bold;
+}
+
+.form1 #preview{
+  max-height   : 20vh;
+  width        : auto;
+  max-width    : 70vw;
+  position     : absolute;
+  left         : 0;
+  right        : 0;
+  margin-left  : auto;
+  margin-right : auto;
+  border-radius: 10px;
+}
+
+.imageContainer{
+  width        : 100vw;
+  box-sizing   : border-box;
+  padding-top  : 8.5vh;
+  padding-bottom: 30vh;
+}
+
+.imageHolder{
+  display      : flex;
+  justify-content: space-around;
+}
+
+.imageHolder img{
+  width        : 31.5vw;
+  height       : auto;
+  border-radius: 5px;
+  margin-bottom   : 1vh;
+}
+
+.fullImageContainer{
+  position     : fixed;
+  top          : 0;
+  display      : none;
+  align-items  : center;
+  height       : 100vh;
+  width        : 100vw;
+  z-index      : 3;
+  justify-content : center;
+  background-color: rgba(0,0,0,0.85);
+}
+
+.fullImageContainer img{
+  position     : absolute;
+  width        : 95vw;
+  height       : auto;
+  z-index      : 4;
+}
+
+.fullImageContainer .prevImg{
+  font-size    : 60pt;
+  color        : white;
+  width        : 30vw;
+  height       : 40%;
+  z-index      : 5;
+  position     : absolute;
+  left         : 10px;
+  font-weight  : bold;
+}
+
+.fullImageContainer .nextImg{
+  font-size    : 60pt;
+  color        : white;
+  width        : 30vw;
+  height       : 40%;
+  z-index      : 5;
+  position     : absolute;
+  font-weight  : bold;
+  right        : 10px;
+}
+
+.fullImageContainer .prevImg span{
+  display      : block;
+  position     : absolute;
+  top          : 50%;
+  left         : 10px;
+  transform    : translateY(-50%);
+}
+
+.fullImageContainer .nextImg span{
+  display      : block;
+  position     : absolute;
+  top          : 50%;
+  right        : 10px;
+  transform    : translateY(-50%);
+}
+
+.fullImageContainer .options{
+  position     : absolute;
+  top          : 66%;
+  left         : 0;
+  height       : 10vh;
+  width        : 100vw;
+  padding      : 10vw;
+  display      : flex;
+  box-sizing   : border-box;
+  justify-content : space-around;
+}
+
+.fullImageContainer .getTextForImage{
+  position     : absolute;
+  top          : 80%;
+  left         : 0;
+  height       : 10vh;
+  width        : 100vw;
+  padding      : 10vw;
+  display      : block;
+  box-sizing   : border-box;
+  text-align   : center;
+  justify-content : space-around;
+}
+
+.fullImageContainer .getTextForImage #textForImage{
+  height       : 100px;
+  width        : 80%;
+  font-size    : 26pt;
+  padding-left : 10px;
+  margin-bottom: 10px;
+}
+
+.fullImageContainer .getTextForImage button{
+  height       : 80px;
+  width        : 300px;
+  font-size    : 30pt;
+}
+
+.fullImageContainer .options span{
+  height       : 6vh;
+  width        : 6vh;
+  box-shadow   : inset 2px 2px 2px rgba(0,0,0,0.16);
+  border-radius: 50%;
+  position     : relative;
+  background-color : white;
+}
+
+.fullImageContainer .options span img{
+  height       : 6vh;
+  width        : 6vh;
+  border-radius: 50%;
+}
+
+.fullImageContainer .options span span{
+  position     : absolute;
+  bottom       : -9vh;
+  color        : white;
+  font-size    : 30pt;
+  font-weight  : bold;
+  z-index      : 10;
+  text-align   : center;
+  background-color : transparent;
+}
