@@ -102,6 +102,7 @@ function prevImg(){
 
   var pth = 'http://localhost:3000/' + res[index];
   $('.fullImage').attr('src',res[index]);
+  $('.peopleInFrameContainer').fadeOut().removeClass("open");
   $('.getTextForImage').fadeOut().removeClass("open");
   setPaths(pth);
   localStorage.setItem('index', index);
@@ -122,22 +123,39 @@ function nextImg(){
 
   var pth = 'http://localhost:3000/' + res[index];
   $('.fullImage').attr('src',res[index]);
+  $('.peopleInFrameContainer').fadeOut().removeClass("open");
   $('.getTextForImage').fadeOut().removeClass("open");
   setPaths(pth);
   localStorage.setItem('index', index);
 }
 
 function getDetailsForImage(src){
+  if($('.getTextForImage').hasClass("open")){
+    getTextForImage(src);
+  }
+  if($('.peopleInFrameContainer').hasClass("open")){
+    $('.peopleInFrameContainer').fadeOut().removeClass("open");
+    $('.fullImage').attr('src', src);
+    return;
+  }
   showLoader();
   $.ajax({
     url    : '/execPython',
     method : 'POST',
     data   : {src:src}
   }).done(function(result){
-      var res = JSON.parse(result).split(' ');
-      var pth = '..\\modified\\' + res[1].split("\\")[6];
+      var res = JSON.parse(result);
+      var pth = '..\\modified\\' + res[0].split(' ')[1];//.split("\\")[6];
       myAlert(res[0] + ' faces detected');
       $('.fullImage').attr('src', pth);
+      if(res[1]!=null && res[1].length > 0 ){
+        $('#peopleInFrame').val(res[1].join(', '));
+        $('.peopleInFrameContainer').fadeIn().addClass("open");
+      }
+      else{
+        $('#peopleInFrame').val('Error detecting faces');
+        $('.peopleInFrameContainer').fadeIn().addClass("open");
+      }
       hideLoader();
   });
 }
@@ -160,6 +178,9 @@ function delImage(src){
 }
 
 function getTextForImage(src){
+  if($('.peopleInFrameContainer').hasClass("open")){
+    getDetailsForImage(src);
+  }
   if($('.getTextForImage').hasClass("open")){
     $('.getTextForImage').fadeOut().removeClass("open");
     return;
@@ -209,9 +230,13 @@ function openFullImage(e, index, allowPrevNext){
   html += '     <input type="text" id="textForImage" />';
   html += '     <button class="saveTitleForImage" onclick="saveTitleForImage(\'' + e.src + '\')">Save</button>';
   html += '  </span>';
+  html += '  <span class="peopleInFrameContainer">';
+  html += '     <input type="text" id="peopleInFrame" readonly/>';
+  html += '  </span>';
   $('.fullImageContainer').html(html).css("display","flex");
 
   $('.getTextForImage').fadeOut();
+  $('.peopleInFrameContainer').fadeOut();
   $('.fullImageContainer').fadeIn().on("click", e=>{
     if(e.target.localName == 'div'){
         closeFullImage();
@@ -256,10 +281,12 @@ $(document).ready(function(){
   });
 
   $('.form1').submit(function(e){
+      showLoader();
       $(this).ajaxSubmit({
        data: {},
        contentType: 'application/json',
        success: function(response){
+         hideLoader();
          myAlert(response);
          $('#preview').attr('src', '');
          $('#photo').attr('src', '');

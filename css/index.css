@@ -329,7 +329,7 @@ input{
   justify-content : space-around;
 }
 
-.fullImageContainer .getTextForImage{
+.fullImageContainer .getTextForImage, .fullImageContainer .peopleInFrameContainer{
   position     : absolute;
   top          : 80%;
   left         : 0;
@@ -342,7 +342,7 @@ input{
   justify-content : space-around;
 }
 
-.fullImageContainer .getTextForImage #textForImage{
+.fullImageContainer .getTextForImage #textForImage, .fullImageContainer .peopleInFrameContainer #peopleInFrame{
   height       : 100px;
   width        : 80%;
   font-size    : 26pt;

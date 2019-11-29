@@ -26,11 +26,23 @@ faces = faceCascade.detectMultiScale(
 for (x, y, w, h) in faces:
     cv2.rectangle(image, (x, y), (x+w, y+h), (255, 255, 255), 2)
 
+# count = 0
+# for (x, y, w, h) in faces:
+#     x = int(x)
+#     y = int(y)
+#     w = int(w) + x
+#     h = int(h) + y
+#     crop_img = image[y:h, x:w]
+#     imgPath = "C:\\Users\\Harsh\\Desktop\\nodejs\\detected_faces\\" + str(count) + '_' + img
+#     cv2.imwrite( imgPath , crop_img)
+#     count += 1
+
+
 #cv2.imshow("Faces found", image)
 #cv2.resizeWindow("Faces found", 600,600)
 #cv2.waitKey(0)
-img = "C:\\Users\\Harsh\\Desktop\\nodejs\\modified\\" + img;
-cv2.imwrite( img , image);
+imgPath = "C:\\Users\\Harsh\\Desktop\\nodejs\\modified\\" + img
+cv2.imwrite( imgPath , image)
 
 print(len(faces), img)
 sys.stdout.flush()

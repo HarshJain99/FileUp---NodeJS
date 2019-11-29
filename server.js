@@ -6,6 +6,7 @@ var path 						= require('path');
 var getPics       	= require(__dirname + '/apis/getPics');
 var bodyParser 			= require('body-parser');
 var fs						  = require('fs');
+var spawn 					= require("child_process").spawn;
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
@@ -51,15 +52,32 @@ app.post('/getFileNames/*', urlencodedParser, function(req,res){
 })
 
 app.post('/execPython', urlencodedParser, function(req,res){
-	var spawn 	= require("child_process").spawn;
 	var pth   	= (req.body.src).split('/')[4];
+	console.log(pth);
+	// var pythonProcess = spawn('python',["./python/detectAndStoreTest.py", pth]);
 	var pythonProcess = spawn('python',["./python/test.py", pth]);
 
 	pythonProcess.stdout.on('data', (data) => {
-		res.end(JSON.stringify(data.toString()));
+		send = [];
+		send.push(data.toString());
+
+		mongoose.connect('mongodb://localhost/mydb', {useNewUrlParser: true});
+		var db = mongoose.connection;
+		db.on('error', console.error.bind(console, 'connection error:'));
+		db.once('open', function() {
+			Uploads.collection.findOne({'name':pth}, function(err, result){
+				if (err){
+						 return console.error(err);
+				}
+				send.push(result.inFrame);
+				res.end(JSON.stringify(send))
+			});
+		});
+
 	});
 
 	pythonProcess.stderr.on('data', (data) => {
+		console.log(data.toString());
 		res.end(JSON.stringify(data.toString()));
 	});
 })
@@ -79,9 +97,10 @@ var upload = multer({storage: storage});//.array('photo',100);
 
 var mongoose = require('mongoose');
 var uploadSchema = new mongoose.Schema({
-	name: String,
-	size: Number,
-	title : [String],
+	name : String,
+	size : Number,
+	title   : [String],
+	inFrame : [String],
 	destination  : String,
 	timeOfUpload : Number,
 });
@@ -136,6 +155,27 @@ app.post('/upload', upload.array('photo',100), function(req,res){
 				}
 			});
 			res.end("File is uploaded");
+
+			////////////////////////Testing////////////////////////////////////////
+			// Change 0 -> i (in the next line) before running for all the images//
+			///////////////////////////////////////////////////////////////////////
+			for(i=0;i<req.files.length;i++){
+				console.log("Sending python request #" + i);
+				var pythonProcess = spawn('python',["./python/detectAndStore.py", req.files[i].originalname]);
+				pythonProcess.stdout.on('data', (data) => {
+					console.log("Python request result");
+					data = JSON.parse(data);
+					Uploads.collection.update({'name':data[1]}, { $set: {'inFrame':data[0]}}, function(err, affected, resp) {
+					   console.log('Updated in collection');
+					 });
+				});
+				pythonProcess.stderr.on('data', (data) => {
+					console.log("Python request result #" + i);
+					console.log(data.toString());
+					console.log('----');
+				});
+			}
+			///////////////////////////////////////////////////////////////////////
 		})
 });
 /////////////////////////////////////////////////////////////////////////////////////
@@ -155,6 +195,7 @@ app.post('/delImage', urlencodedParser, function(req,res){
 			if (err){
 					 return console.error(err);
 			}
+			console.log("Record deleted from Collection");
 			res.end(JSON.stringify('Deleted'));
 		});
 	});
@@ -205,7 +246,12 @@ app.post('/filterImages', urlencodedParser, function(req,res){
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function() {
 		// Uploads.find({title:{ $elemMatch : {'$eq':filter} } }).exec(function(err, users) {
-		Uploads.find({title:{ $elemMatch : {'$in' : f} } }).exec(function(err, users) {
+		// Uploads.find({title:{ $elemMatch : {'$in' : f} } }).exec(function(err, users) {
+		Uploads.find({$or : [
+										{title   : { $elemMatch : {'$in' : f} } },
+										{inFrame : { $elemMatch : {'$in' : f} } }
+												]
+								}).exec(function(err, users) {
 			if (err) throw err;
 			var results = [];
 			for(i=0;i<users.length;i++){

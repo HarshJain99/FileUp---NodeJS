@@ -1,7 +1,7 @@
 import sys
 import cv2
 
-img = '20181110_122234.jpg'
+img = '20181108_130840.jpg'
 imagePath = '../uploads/' + img
 cascPath = "haarcascade_frontalface_default.xml"
 
@@ -27,9 +27,25 @@ for (x, y, w, h) in faces:
     cv2.rectangle(image, (x, y), (x+w, y+h), (255, 255, 255), 2)
     print(x,y)
 
-#cv2.imshow("Faces found", image)
-#cv2.resizeWindow("Faces found", 600,600)
-#cv2.waitKey(0)
+count = 0
+for (x, y, w, h) in faces:
+    x = int(x)
+    y = int(y)
+    w = int(w) + x
+    h = int(h) + y
+    crop_img = image[y:h, x:w]
+    imgPath = "../detected_faces/" + str(count) + '_' + img
+    cv2.imwrite( imgPath , crop_img)
+    count += 1
+    # cv2.imshow("cropped", crop_img)
+    # cv2.waitKey(0)
+
+
+# cv2.imshow("Faces found", image)
+# cv2.resizeWindow("Faces found", 600,600)
+# cv2.waitKey(0)
+
+
 img = "../modified/" + img;
 cv2.imwrite( img , image);
 
