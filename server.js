@@ -161,7 +161,7 @@ app.post('/upload', upload.array('photo',100), function(req,res){
 			///////////////////////////////////////////////////////////////////////
 			for(i=0;i<req.files.length;i++){
 				console.log("Sending python request #" + i);
-				var pythonProcess = spawn('python',["./python/detectAndStore.py", req.files[i].originalname]);
+				var pythonProcess = spawn('python',["./python/detectAndStore2.py", req.files[i].originalname]);
 				pythonProcess.stdout.on('data', (data) => {
 					console.log("Python request result");
 					data = JSON.parse(data);

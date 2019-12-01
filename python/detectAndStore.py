@@ -157,12 +157,21 @@ for (x, y, w, h) in faces:
 
                 # rotate the image to align the face of the person
                 rotated = cv2.warpAffine(imgPart, M, (imgPart.shape[1], imgPart.shape[0]), flags=cv2.INTER_CUBIC)
+                #############################################
+                print(json.dumps(face_recognition.face_encodings(rotated).shape))
+                sys.stdout.flush()
+                #############################################
 
                 nameOfPerson = getNameOfPerson(rotated)
                 if nameOfPerson == 0:
                     names_of_people_detected.append("Not Identified")
                     imgPath = "C:\\Users\\Harsh\\Desktop\\nodejs\\not_identified\\" + img.split('.')[0] + '_' + str(count) + img.split('.')[1]
-                    cv2.imwrite(imgPath, rotated)
+#############################################
+                    print(imgPath)
+                    sys.stdout.flush()
+                    exit()
+#############################################
+                    # cv2.imwrite(imgPath, rotated)
                     continue
                 names_of_people_detected.append(nameOfPerson)
                 imgPath = "C:\\Users\\Harsh\\Desktop\\nodejs\\rotated_faces\\" + img.split('.')[0] + '_' + str(count) + '_' + nameOfPerson + '.' + img.split('.')[1]
